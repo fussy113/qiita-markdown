@@ -1699,6 +1699,42 @@ describe Qiita::Markdown::Processor do
         end
       end
 
+      context "with HTML embed code for CodeSandbox" do
+        shared_examples "embed code CodeSandbox example" do
+          let(:markdown) do
+            <<-MARKDOWN.strip_heredoc
+              <iframe width="100" height="100" src="#{url}"></iframe>
+            MARKDOWN
+          end
+          let(:url) { "#{scheme}//codesandbox.io/embed/example" }
+          if allowed
+            it "does not sanitize embed code" do
+              should eq <<-HTML.strip_heredoc
+                <iframe width="100" height="100" src="#{url}"></iframe>
+              HTML
+            end
+          else
+            it "forces width attribute on iframe" do
+              should eq <<-HTML.strip_heredoc
+                <iframe width="100%" height="100" src="#{url}"></iframe>
+              HTML
+            end
+          end
+        end
+
+        context "with scheme" do
+          let(:scheme) { "https:" }
+
+          include_examples "embed code CodeSandbox example"
+        end
+
+        context "without scheme" do
+          let(:scheme) { "" }
+
+          include_examples "embed code CodeSandbox example"
+        end
+      end
+
       context "with embed code for Tweet" do
         let(:markdown) do
           <<-MARKDOWN.strip_heredoc

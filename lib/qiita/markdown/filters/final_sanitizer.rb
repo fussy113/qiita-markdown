@@ -29,7 +29,9 @@ module Qiita
               "src",
               "style",
               "width",
-            ],
+            ].concat(
+              Embed::CodeSandbox::ATTRIBUTES,
+            ),
             "img" => [
               "src",
             ],

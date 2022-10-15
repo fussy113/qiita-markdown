@@ -10,6 +10,7 @@ module Qiita
           Embed::SlideShare::SCRIPT_HOST,
           Embed::GoogleSlide::SCRIPT_HOST,
           Embed::Docswell::SCRIPT_HOSTS,
+          Embed::CodeSandbox::SCRIPT_HOST,
         ].flatten.freeze
 
         def self.call(**args)
